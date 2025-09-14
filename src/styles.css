@@ -1,0 +1,228 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+h2 {
+  display: : block;
+  width: 100%;
+  margin-top: 0;
+  font-size: 20px;
+  display: inline-block;
+  border-bottom: 3px solid rgb(232, 89, 18);
+  padding: 0px 10px 2px 1px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+h4 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+h5 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+h6 {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+p {
+  display: block;
+  margin: 0px 10px 10px 0px;
+  font-size: 1em;
+}
+
+code {
+  font-size: 1.2em;
+}
+
+ul {
+  padding-inline-start: 0px;
+  list-style-type: none;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+li {
+  margin-bottom: 10px;
+  flex-grow: 1;
+
+  display: flex;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+button {
+  background-color: #fff;
+  padding: 5px 20px;
+  display: block;
+  width: 100%;
+  font-weight: bold;
+}
+
+button:hover {
+  border: 2px solid darkblue;
+  background-color: rgb(56, 222, 216);
+  color: darkblue;
+}
+
+.hide {
+  display: none;
+}
+
+.square {
+  background: #84e6e6;
+  border: 1px solid #000;
+  float: left;
+  font-size: 24px;
+  color: rgb(87, 8, 232);
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.winningSquare {
+  background: rgb(87, 8, 232);
+  color: hsl(19, 90%, 55%);
+  border: 1px solid #000;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.draw {
+  background: black;
+  color: orange;
+  border: 1px solid #000;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.square:hover {
+  background: rgb(87, 8, 232);
+  color: #84e6e6;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.bigStatus {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-board {
+  margin: 5px 10px;
+  padding: 0px 10px;
+  margin-right: 20px;
+  
+}
+
+.board-container {
+  margin-bottom: 10px;
+}
+
+.game-info {
+  margin: 5px 10px;
+  padding: 0px 10px;
+}
+
+.togglePageContainer {
+  display: flex;
+  width: 100%;
+  margin: 0px 0px 5px 0px;
+  padding: 0px 0px 10px 0px;
+  justify-content: space-around;
+}
+
+.togglePageContainer button {
+  display: block;
+  width: auto;
+  font-size: 14px;
+  
+}
+
+.togglePageContainer button:hover {
+  background-color: rgb(228, 103, 14) !important;
+  border: 2px solid rgb(210, 62, 8)!important;
+  color: #000;
+}
+
+.memory {
+  display: flex;
+  
+  
+}
+
+.memory-board {
+  display: block;
+  margin: 5px 10px 10px 10px;
+  padding: 0px 10px;
+}
+
+.memory-info {
+  display: block;
+  margin: 5px 10px 10px 10px;
+  padding: 0px 10px;
+}
