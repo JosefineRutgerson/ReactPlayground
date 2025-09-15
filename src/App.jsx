@@ -24,6 +24,15 @@ function chunkArray(arr, size) {
   return chunks;
 }
 
+class objBrick {
+  constructor(key, symbol, selected, cssclass) {
+    this.key = key;
+    this.symbol = symbol;
+    this.selected = selected;
+    this.cssclass = cssclass;
+  }
+}
+
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
@@ -113,6 +122,7 @@ export default function Game() {
   const xIsNext = currentMove % 2 === 0;
   const [infoMove, setInfoMove] = useState("Make your first move Aragorn!");
   const [togglePage, setTogglePage] = useState(false);
+  const [bricks, setBricks] = useState(createBricks());
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -128,16 +138,6 @@ export default function Game() {
       setTogglePage(false);
     }
   }
-
-  const handleClick = () => {
-    if (count === 0) {
-      console.log("The value is 0, changing to 1");
-      setCount(1);
-    } else {
-      console.log("The value is not 0, changing back to 0");
-      setCount(0);
-    }
-  };
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
@@ -191,10 +191,11 @@ export default function Game() {
       <div className={togglePage ? "memory" : "hide"}>
         <div className="memory-board">
           <h2>Memory</h2>
+          <MemoryGame bricks={bricks} />
         </div>
         <div className="memory-info">
           <h2>Memory info</h2>
-          <p>Test</p>
+          <p>Play memory!</p>
         </div>
       </div>
     </section>
@@ -222,4 +223,50 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function createBricks() {
+  const symbols = ["&", "%", "@", "#", "?", "Ö"];
+  const doubled = [...symbols, ...symbols];
+
+  // shuffle (Fisher-Yates)
+  for (let i = doubled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [doubled[i], doubled[j]] = [doubled[j], doubled[i]];
+  }
+
+  // use "brick1", "brick2", ... as keys
+  return doubled.map(
+    (symbol, index) => new objBrick(`brick${index + 1}`, symbol, false, "brick")
+  );
+}
+
+function MemoryGame({ bricks }) {
+  
+  const myChunkedBricks = chunkArray(bricks, 4);
+
+  return (
+    <div className="memory-container">
+      {myChunkedBricks.map((array, indo) => (
+        <div className="memory-row">
+          {array.map((item, index) => (
+            <Brick
+              key={item.key}
+              value={item.symbol}
+              onBrickClick={() => handleBrickClick(item)}
+              brickClass={item.cssclass}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Brick({ key, value, onBrickClick, brickClass }) {
+  return (
+    <button key={key} className={brickClass} onClick={onBrickClick}>
+      {value}
+    </button>
+  );
 }

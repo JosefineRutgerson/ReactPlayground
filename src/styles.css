@@ -193,7 +193,7 @@ button:hover {
   width: 100%;
   margin: 0px 0px 5px 0px;
   padding: 0px 0px 10px 0px;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .togglePageContainer button {
@@ -225,4 +225,20 @@ button:hover {
   display: block;
   margin: 5px 10px 10px 10px;
   padding: 0px 10px;
+}
+
+.brick {
+  background: #84e6e6;
+  border: 1px solid #000;
+  float: left;
+  font-size: 24px;
+  color: rgb(87, 8, 232);
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
 }
