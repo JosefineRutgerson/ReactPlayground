@@ -57,7 +57,7 @@ code {
 ul {
   padding-inline-start: 0px;
   list-style-type: none;
-  margin: 0px;
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
@@ -65,8 +65,12 @@ ul {
 li {
   margin-bottom: 10px;
   flex-grow: 1;
-
   display: flex;
+}
+
+ul li:last-child {
+  /* styles for the last <li> */
+  margin-bottom: 15px;
 }
 
 * {
@@ -173,19 +177,21 @@ button:hover {
 }
 
 .game-board {
-  margin: 5px 10px;
-  padding: 0px 10px;
-  margin-right: 20px;
-  
+  margin-right: 40px;
 }
 
 .board-container {
   margin-bottom: 10px;
+  padding-left: 3px;
 }
 
 .game-info {
-  margin: 5px 10px;
+  margin: 0px 5px;
   padding: 0px 10px;
+}
+
+.move-info {
+  margin-top: 0px;
 }
 
 .togglePageContainer {
@@ -209,10 +215,16 @@ button:hover {
   color: #000;
 }
 
-.memory {
+.memory-wrapper {
   display: flex;
   
-  
+}
+
+.memory-row {
+  display: flex;
+}
+.memory-container {
+  display: inline-block;
 }
 
 .memory-board {
@@ -223,7 +235,7 @@ button:hover {
 
 .memory-info {
   display: block;
-  margin: 5px 10px 10px 10px;
+  margin: 0px 10px 10px 20px;
   padding: 0px 10px;
 }
 
@@ -236,8 +248,8 @@ button:hover {
   font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+  margin-right: 5px;
+  margin-top: 5px;
   padding: 0;
   text-align: center;
   width: 34px;
