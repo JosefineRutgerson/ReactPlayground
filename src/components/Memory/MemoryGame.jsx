@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { chunkArray } from "../../utils/arrayHelpers";
-import { objBrick } from "../../utils/brick";
 
 function createBricks() {
   const symbols = ["&", "%", "@", "#", "?", "Ö"];
@@ -12,24 +11,64 @@ function createBricks() {
     [doubled[i], doubled[j]] = [doubled[j], doubled[i]];
   }
 
-  return doubled.map(
-    (symbol, index) =>
-      new objBrick(`brick-${index + 1}`, symbol, false, "brick")
-  );
+  // Use plain objects instead of custom class
+  return doubled.map((symbol, index) => ({
+    id: `brick-${index + 1}`,
+    symbol,
+    flipped: false,
+    matched: false,
+  }));
 }
 
 export default function MemoryGame() {
   const [bricks, setBricks] = useState(createBricks());
+  const [flipped, setFlipped] = useState([]);
 
-  function handleBrickClick(clickedKey) {
-    setBricks((prevBricks) =>
-      prevBricks.map((brick) =>
-        brick.key === clickedKey
-          ? new objBrick(brick.key, brick.symbol, true, "brick flipped")
-          : brick
+  function handleBrickClick(clickedId) {
+    if (flipped.length === 2) return;
+
+    setBricks((prev) =>
+      prev.map((brick) =>
+        brick.id === clickedId ? { ...brick, flipped: true } : brick
       )
     );
+
+    setFlipped((prev) => [...prev, clickedId]);
   }
+
+  useEffect(() => {
+    if (flipped.length !== 2) return;
+
+    const [firstId, secondId] = flipped;
+    const firstBrick = bricks.find((b) => b.id === firstId);
+    const secondBrick = bricks.find((b) => b.id === secondId);
+
+    if (!firstBrick || !secondBrick) return;
+
+    if (firstBrick.symbol === secondBrick.symbol) {
+      // Mark as matched
+      setBricks((prev) =>
+        prev.map((brick) =>
+          brick.id === firstId || brick.id === secondId
+            ? { ...brick, matched: true }
+            : brick
+        )
+      );
+      setFlipped([]);
+    } else {
+      // Flip back after delay
+      setTimeout(() => {
+        setBricks((prev) =>
+          prev.map((brick) =>
+            brick.id === firstId || brick.id === secondId
+              ? { ...brick, flipped: false }
+              : brick
+          )
+        );
+        setFlipped([]);
+      }, 1000);
+    }
+  }, [flipped, bricks]);
 
   const myChunkedBricks = chunkArray(bricks, 4);
 
@@ -41,11 +80,14 @@ export default function MemoryGame() {
           <div className="memory-row" key={rowIndex}>
             {row.map((brick) => (
               <button
-                key={brick.key}
-                className={brick.cssclass}
-                onClick={() => handleBrickClick(brick.key)}
+                key={brick.id}
+                className={`brick ${
+                  brick.flipped || brick.matched ? "flipped" : ""
+                }`}
+                onClick={() => handleBrickClick(brick.id)}
+                disabled={brick.matched}
               >
-                {brick.selected ? brick.symbol : "O"}
+                {brick.flipped || brick.matched ? brick.symbol : "O"}
               </button>
             ))}
           </div>
