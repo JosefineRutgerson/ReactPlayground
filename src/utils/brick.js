@@ -6,3 +6,14 @@ export class objBrick {
     this.cssclass = cssclass;
   }
 }
+
+export function createBricks() {
+  const symbols = ["&", "%", "@", "#", "?", "+"];
+  const doubled = [...symbols, ...symbols];
+  return doubled.map((symbol, index) => ({
+    id: `brick-${index}`,
+    symbol,
+    flipped: false,
+    matched: false,
+  }));
+}

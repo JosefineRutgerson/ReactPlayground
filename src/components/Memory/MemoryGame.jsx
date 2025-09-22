@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { chunkArray } from "../../utils/arrayHelpers";
-
-function createBricks() {
-  const symbols = ["&", "%", "@", "#", "?", "+"];
-  const doubled = [...symbols, ...symbols];
-
-  // Shuffle
-  for (let i = doubled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [doubled[i], doubled[j]] = [doubled[j], doubled[i]];
-  }
-
-  // Use plain objects instead of custom class
-  return doubled.map((symbol, index) => ({
-    id: `brick-${index + 1}`,
-    symbol,
-    flipped: false,
-    matched: false,
-  }));
-}
+import { useState, useEffect } from "react";
+import { createBricks } from "../../utils/brick.js";
+import { chunkArray } from "../../utils/arrayHelpers.js";
 
 export default function MemoryGame() {
   const [bricks, setBricks] = useState(createBricks());
   const [flippedIds, setFlippedIds] = useState([]);
-  const [lock, setLock] = useState(false); // lock state
+  const [lock, setLock] = useState(false);
   const [matches, setMatches] = useState(0);
-  const isGameWon = matches === 6;
+  const [specialBricks, setSpecialBricks] = useState({});
+  const isGameWon = matches === bricks.length / 2;
+
+  // Pick 3 random special bricks on mount or when new bricks are created
+  useEffect(() => {
+    if (bricks.length < 3) return;
+
+    const ids = [...bricks.map((b) => b.id)];
+    const shuffled = ids.sort(() => Math.random() - 0.5);
+    const [id1, id2, id3] = shuffled.slice(0, 3);
+
+    setSpecialBricks({
+      ...(id1 && { [id1]: "fastest" }),
+      ...(id2 && { [id2]: "slowest" }),
+      ...(id3 && { [id3]: "mediumFast" }),
+    });
+  }, [bricks]);
 
   function handleBrickClick(id) {
     if (lock || flippedIds.includes(id)) return;
@@ -49,7 +47,6 @@ export default function MemoryGame() {
     if (!firstBrick || !secondBrick) return;
 
     if (firstBrick.symbol === secondBrick.symbol) {
-      // Mark as matched
       setBricks((prev) =>
         prev.map((brick) =>
           brick.id === firstId || brick.id === secondId
@@ -57,11 +54,10 @@ export default function MemoryGame() {
             : brick
         )
       );
-      setMatches((prev) => prev + 1);
+      setMatches((m) => m + 1);
       setFlippedIds([]);
     } else {
       setLock(true);
-      // Flip back after delay
       setTimeout(() => {
         setBricks((prev) =>
           prev.map((brick) =>
@@ -76,22 +72,22 @@ export default function MemoryGame() {
     }
   }, [flippedIds, bricks]);
 
-  const myChunkedBricks = chunkArray(bricks, 4);
+  //const myChunkedBricks = chunkArray(bricks, 4);
+  const myChunkedBricks = Array.isArray(bricks) ? chunkArray(bricks, 4) : [];
 
-  //Messages logic
+  // Messages logic
   let statusMessage;
-  if (matches > 0 && matches != 6) {
-    statusMessage = "You've found " + matches + " matches!";
+  if (matches > 0 && matches !== 6) {
+    statusMessage = `You've found ${matches} matches!`;
   } else if (isGameWon) {
     statusMessage = "🎉 You won!";
   } else {
     statusMessage = "Wanna play Memory?";
   }
 
-  //css class logic
+  // CSS class logic
   function getBrickClasses(brick) {
     const classes = ["brick"];
-
     if (!isGameWon && (brick.flipped || brick.matched)) {
       classes.push("flipped");
     }
@@ -104,22 +100,45 @@ export default function MemoryGame() {
         <h2>Memory</h2>
         {myChunkedBricks.map((row, rowIndex) => (
           <div className="memory-row" key={rowIndex}>
-            {row.map((brick) => (
-              <button
-                key={brick.id}
-                className={getBrickClasses(brick)}
-                onClick={() => handleBrickClick(brick.id)}
-                disabled={brick.matched || lock}
-              >
-                {brick.flipped || brick.matched ? brick.symbol : "O"}
-              </button>
-            ))}
+            {row.map((brick, colIndex) => {
+              const speed = specialBricks[brick.id] || "normal";
+              return (
+                <button
+                  key={brick.id}
+                  className={getBrickClasses(brick)}
+                  onClick={() => handleBrickClick(brick.id)}
+                  style={{
+                    "--row": `${rowIndex}`,
+                    "--col": `${colIndex}`,
+                  }}
+                  disabled={brick.matched || lock}
+                  speed={specialBricks[brick.id] || "normal"} // 👈 add this
+                >
+                  {brick.flipped || brick.matched ? brick.symbol : "O"}
+                </button>
+              );
+            })}
           </div>
         ))}
       </div>
       <div className="memory-info">
         <h2>Game info</h2>
         <p>{statusMessage}</p>
+        <button className="option" onClick={() => setMatches(6)}>
+          Force Win
+        </button>
+        <button
+          className="option"
+          onClick={() => {
+            setBricks(createBricks());
+            setMatches(0);
+            setFlippedIds([]);
+            setLock(false);
+            setSpecialBricks({}); // reset specials on new game
+          }}
+        >
+          New Game
+        </button>
       </div>
     </div>
   );

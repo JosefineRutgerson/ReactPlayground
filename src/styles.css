@@ -228,6 +228,10 @@ button:hover {
   margin-right: 5%;
 }
 
+.option {
+  margin-bottom: 4%;
+}
+
 .memory-board {
   display: block;
   margin: 5px 10px 10px 10px;
@@ -257,10 +261,11 @@ button:hover {
 }
 
 .brick {
-  transition: transform 0.2s;
+  transition: transform 0.4s;
 }
 
 /* Animations */
+/* Keyframes (unchanged) */
 @keyframes growShrink {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -272,24 +277,62 @@ button:hover {
   to { transform: translateY(100px); }
 }
 
-/* Apply on win */
-.game-won .brick {
-  animation: 
-    growShrink 1s ease forwards,
-    moveDown 0.5s ease forwards 1s;
+@keyframes fadeRotate {
+  0% {
+    opacity: 1;
+    transform: translateY(100px) translateX(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100px) translateX(50px) rotate(360deg);
+  }
 }
 
-/* Staggered delays */
-.game-won .brick:nth-child(1) { animation-delay: 0s, 1s; }
-.game-won .brick:nth-child(2) { animation-delay: 0.1s, 1.1s; }
-.game-won .brick:nth-child(3) { animation-delay: 0.2s, 1.2s; }
-.game-won .brick:nth-child(4) { animation-delay: 0.3s, 1.3s; }
-.game-won .brick:nth-child(5) { animation-delay: 0.4s, 1.4s; }
-.game-won .brick:nth-child(6) { animation-delay: 0.5s, 1.5s; }
-.game-won .brick:nth-child(7) { animation-delay: 0.6s, 1.6s; }
-.game-won .brick:nth-child(8) { animation-delay: 0.7s, 1.7s; }
-.game-won .brick:nth-child(9) { animation-delay: 0.8s, 1.8s; }
-.game-won .brick:nth-child(10) { animation-delay: 0.9s, 1.9s; }
-.game-won .brick:nth-child(11) { animation-delay: 1s, 2s; }
-.game-won .brick:nth-child(12) { animation-delay: 1.1s, 2.1s; }
+/* Default bricks on game win */
+.game-won .brick {
+  animation:
+    growShrink 1.5s ease forwards,
+    moveDown var(--fall-duration, 2s) ease forwards 0.5s,
+    fadeRotate var(--fade-duration, 2s) ease forwards;
+  
+  animation-delay:
+    0s, /* pulse immediately */
+    calc(0.5s + (2 - var(--row)) * 0.3s + var(--col) * 0.1s),
+    calc(0.5s + (2 - var(--row)) * 0.3s + var(--col) * 0.1s + var(--fade-offset, 2s));
+}
 
+/* Special brick speed mapping */
+.brick[speed="fastest"] {
+  --fall-duration: 1s;
+  --fade-duration: 1s;
+  --fade-offset: 1s;
+}
+
+.brick[speed="mediumFast"] {
+  --fall-duration: 1.5s;
+  --fade-duration: 1.5s;
+  --fade-offset: 1.5s;
+}
+
+.brick[speed="slowest"] {
+  --fall-duration: 3s;
+  --fade-duration: 3s;
+  --fade-offset: 3s;
+}
+
+
+/* Staggered delays */
+/*.game-won .brick:nth-child(3) { animation-delay: 0s, 1s; }
+.game-won .brick:nth-child(6) { animation-delay: 0.1s, 1.1s; }
+.game-won .brick:nth-child(9) { animation-delay: 0.2s, 1.2s; }
+.game-won .brick:nth-child(12) { animation-delay: 0.3s, 1.3s; }
+
+.game-won .brick:nth-child(2) { animation-delay: 0.4s, 1.4s; }
+.game-won .brick:nth-child(5) { animation-delay: 0.5s, 1.5s; }
+.game-won .brick:nth-child(8) { animation-delay: 0.6s, 1.6s; }
+.game-won .brick:nth-child(11) { animation-delay: 0.7s, 1.7s; }
+
+.game-won .brick:nth-child(1) { animation-delay: 0.8s, 1.8s; }
+.game-won .brick:nth-child(4) { animation-delay: 0.9s, 1.9s; }
+.game-won .brick:nth-child(7) { animation-delay: 1s, 2s; }
+.game-won .brick:nth-child(10) { animation-delay: 1.1s, 2.1s; } */
