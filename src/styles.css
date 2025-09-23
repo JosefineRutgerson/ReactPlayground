@@ -83,6 +83,12 @@ body {
   padding: 0;
 }
 
+footer {
+  min-height: 50px;
+  background-color: #84e6e6;
+  border-top: 4px solid rgb(247, 75, 12);
+}
+
 button {
   background-color: #fff;
   padding: 5px 20px;
