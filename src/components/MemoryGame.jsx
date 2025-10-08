@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { createBricks } from "../../utils/brick.js";
-import { chunkArray } from "../../utils/arrayHelpers.js";
+import { createBricks } from "../utils/brick.js";
+import { chunkArray } from "../utils/arrayHelpers.js";
 
 export default function MemoryGame() {
   const [bricks, setBricks] = useState(createBricks());

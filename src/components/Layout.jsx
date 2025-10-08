@@ -1,7 +1,8 @@
 // Layout.jsx
 import React from "react";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./Header";
+import Footer from "./Footer";
+import Nav from "./Nav";
 
 
 export default function Layout({ children }) {
@@ -9,7 +10,8 @@ export default function Layout({ children }) {
     
     <>
       <Header />
-      <main>{children}</main>
+      <Nav />
+        <main>{children}</main>
       <Footer />
     </>
   

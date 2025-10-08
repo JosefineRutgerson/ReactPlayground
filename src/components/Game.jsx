@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { chunkArray } from "../../utils/arrayHelpers";
+import { chunkArray } from "../utils/arrayHelpers";
 
 function Square({ value, onSquareClick, squareClass }) {
   return (
@@ -81,7 +81,7 @@ function Board({ xIsNext, squares, onPlay }) {
 
   return (
     <>
-      <h2>TicTacToe</h2>
+      <h2>Game</h2>
       <div className="board-container">
         {myChunkedSquares.map((array, rowIndex) => (
           <div className="board-row" key={rowIndex}>

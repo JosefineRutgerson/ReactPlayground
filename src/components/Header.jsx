@@ -1,14 +1,14 @@
-import { useState } from "react";
+import bankLogo from "../img/bank.png";
 
 
 export default function Header() {
   return (
     <header>
       <div className="header-left">
-        <h1>My react playground</h1>
+        <img src={bankLogo} alt="Logo" width="40" height="40" />
       </div>
       <div className="header-right">
-        <p>Something to come...</p>
+        <p>My React playground</p>
       </div>
     </header>
   );

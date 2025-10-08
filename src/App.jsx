@@ -1,21 +1,26 @@
 import { useState } from "react";
-import Game from "./components/TicTacToe/Game.jsx";
-import MemoryGame from "./components/Memory/MemoryGame.jsx";
-import Layout from "./layout/layout.jsx";
+import TicTacToe from "./pages/TicTacToe.jsx";
+import Memory from "./pages/Memory.jsx";
+import About from "./pages/About.jsx";
+import Layout from "./components/Layout.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 export default function App() {
-  const [togglePage, setTogglePage] = useState(false);
-
+  
   return (
-    <Layout>
-    <div className="app-container">
-      <div className="togglePageContainer">
-        <h2>Mendokse</h2>
-        <button onClick={() => setTogglePage(!togglePage)}>Toggle Game</button>
-      </div>
-
-      {!togglePage ? <Game /> : <MemoryGame />}
-    </div>
-    </Layout>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<TicTacToe />} />
+          <Route path="/memory" element={<Memory />} />  
+          <Route path="/about" element={<About />} />        
+        </Routes>
+          <div className="app-container">
+                     
+          </div>
+      </Layout>
+    </Router>
+    
   );
 }

@@ -5,10 +5,10 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-left">
-        <p>This is the left side</p>
+        <p></p>
       </div>
       <div className="footer-right">
-        <p>This is the right side</p>
+        <p>@ Games</p>
       </div>
     </footer>
   );
